@@ -4,11 +4,11 @@ public class Test {
 
 	public static void main(String[] args) {
 		
-		Rational a = new Rational(-2,6);
-		Rational b = new Rational(2,5);
-		SimplifiedRational c = new SimplifiedRational(-2, 6);
-		SimplifiedRational d = new SimplifiedRational(2, 5);
-		Rational e = new Rational(2,-6);
+		IRational a = new Rational(-2,6);
+		IRational b = new Rational(2,5);
+		IRational c = new SimplifiedRational(-2, 6);
+		IRational d = new SimplifiedRational(2, 5);
+		IRational e = new Rational(2,-6);
 		
 		System.out.println(a);
 		System.out.println(b);
