@@ -2,7 +2,8 @@ package com.cooksys.ftd.assignments.day.two.objects;
 
 public class Rational implements IRational {
 
-	private int numerator, denominator;
+	private final int numerator, denominator;
+	private final boolean sign;
 
 	/**
 	 * Constructor for rational values of the type:
@@ -22,8 +23,9 @@ public class Rational implements IRational {
 	public Rational(int numerator, int denominator) throws IllegalArgumentException {
 		if (denominator == 0)
 			throw new IllegalArgumentException();
-		this.numerator = numerator;
-		this.denominator = denominator;
+		sign = numerator >= 0 == denominator > 0;
+		this.numerator = Math.abs(numerator);
+		this.denominator = Math.abs(denominator);
 	}
 
 	/**
@@ -41,6 +43,14 @@ public class Rational implements IRational {
 	public int getDenominator() {
 		return denominator;
 	}
+	
+	/**
+	 * @return the sign of this rational number
+	 */
+	@Override
+	public boolean getSign() {
+		return sign;
+	}	
 
 	/**
 	 * Specializable constructor to take advantage of shared code between
@@ -75,7 +85,8 @@ public class Rational implements IRational {
 	public boolean equals(Object obj) {
 		return ((obj instanceof Rational) && 
 				((Rational) obj).numerator == numerator && 
-				((Rational) obj).denominator == denominator);
+				((Rational) obj).denominator == denominator &&
+				((Rational) obj).sign == sign);
 	}
 
 	/**
@@ -89,7 +100,7 @@ public class Rational implements IRational {
 	 */
 	@Override
 	public String toString() {
-		return (numerator < 0 != denominator < 0 ? "-" : "") + Math.abs(numerator) + "/" + Math.abs(denominator);
+		return (sign ? "" : "-") + numerator + "/" + denominator;
 	}
 
 }

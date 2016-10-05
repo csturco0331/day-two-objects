@@ -2,7 +2,8 @@ package com.cooksys.ftd.assignments.day.two.objects;
 
 public class SimplifiedRational implements IRational {
 
-	private int numerator, denominator;
+	private final int numerator, denominator;
+	private final boolean sign;
 
 	/**
 	 * Determines the greatest common denominator for the given values
@@ -45,7 +46,7 @@ public class SimplifiedRational implements IRational {
 	public static int[] simplify(int numerator, int denominator) throws IllegalArgumentException {
 		if (denominator == 0)
 			throw new IllegalArgumentException();
-		int gcd = numerator == 0 ? denominator : gcd(Math.abs(numerator), Math.abs(denominator));
+		final int gcd = numerator == 0 ? denominator : gcd(Math.abs(numerator), Math.abs(denominator));
 		return new int[] { numerator / gcd, denominator / gcd };
 
 	}
@@ -68,14 +69,11 @@ public class SimplifiedRational implements IRational {
 	public SimplifiedRational(int numerator, int denominator) throws IllegalArgumentException {
 		if (denominator == 0)
 			throw new IllegalArgumentException();
-		if (numerator == 0) {
-			this.numerator = numerator;
-			this.denominator = denominator;
-		} else {
-			int[] result = simplify(numerator, denominator);
-			this.numerator = result[0];
-			this.denominator = result[1];
-		}
+		sign = numerator >= 0 == denominator > 0;
+		final int[] result = simplify(Math.abs(numerator), Math.abs(denominator));
+		this.numerator = result[0];
+		this.denominator = result[1];
+
 	}
 
 	/**
@@ -93,6 +91,14 @@ public class SimplifiedRational implements IRational {
 	public int getDenominator() {
 		return denominator;
 	}
+	
+	/**
+	 * @return the sign of this rational number
+	 */
+	@Override
+	public boolean getSign() {
+		return sign;
+	}	
 
 	/**
 	 * Specializable constructor to take advantage of shared code between
@@ -127,8 +133,9 @@ public class SimplifiedRational implements IRational {
 	@Override
 	public boolean equals(Object obj) {
 		return ((obj instanceof SimplifiedRational) && 
-				((SimplifiedRational) obj).getNumerator() == numerator && 
-				((SimplifiedRational) obj).getDenominator() == denominator);
+				((SimplifiedRational) obj).numerator == numerator && 
+				((SimplifiedRational) obj).denominator == denominator &&
+				((SimplifiedRational) obj).sign == sign);
 	}
 
 	/**
@@ -142,6 +149,6 @@ public class SimplifiedRational implements IRational {
 	 */
 	@Override
 	public String toString() {
-		return (numerator < 0 != denominator < 0 ? "-" : "") + Math.abs(numerator) + "/" + Math.abs(denominator);
+		return (sign ? "" : "-") + numerator + "/" + denominator;
 	}
 }
